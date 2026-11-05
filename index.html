@@ -489,19 +489,127 @@
 
         <!-- SECTION 4: FLIP MEMORY CARDS -->
         <section class="space-y-6">
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
-                <div class="text-center sm:text-left">
-                    <h2 class="text-2xl md:text-3xl font-bold text-love-700">เหตุผล & ความทรงจำที่เค้าหลงรักเธอ ✨</h2>
-                    <p class="text-slate-500 text-sm mt-1">คลิกที่การ์ดแต่ละใบเพื่อพลิกดูความลับนะ (สามารถกดแก้ไข/เพิ่มการ์ดได้)</p>
-                </div>
-                <button onclick="openCustomizerTab('cards')" class="px-4 py-2 bg-love-100 hover:bg-love-200 text-love-700 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm">
-                    <i class="fa-solid fa-pen-to-square"></i> แก้ไขการ์ดความทรงจำ
-                </button>
+            <div class="text-center">
+                <h2 class="text-2xl md:text-3xl font-bold text-love-700">เหตุผล & ความทรงจำที่เค้าหลงรักเธอ ✨</h2>
+                <p class="text-slate-500 text-sm mt-1">คลิกที่การ์ดแต่ละใบเพื่อพลิกดูความลับนะ</p>
             </div>
 
-            <!-- Dynamic Memory Cards Container -->
-            <div id="memoryCardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Cards rendered dynamically via JS -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Card 1 -->
+                <div class="flip-card h-64 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass-card p-6 flex flex-col items-center justify-center text-center">
+                            <div class="w-16 h-16 rounded-full bg-love-100 flex items-center justify-center text-love-500 text-2xl mb-4 shadow-inner">
+                                <i class="fa-solid fa-face-smile-beam"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-love-600">รอยยิ้มของคุณ</h3>
+                            <p class="text-xs text-slate-400 mt-2">คลิกเพื่อพลิกดู ❤️</p>
+                        </div>
+                        <div class="flip-card-back bg-gradient-to-br from-love-500 to-love-600 text-white p-6 flex flex-col items-center justify-center text-center shadow-xl">
+                            <i class="fa-solid fa-quote-left text-love-200 text-2xl mb-2"></i>
+                            <p class="font-handwrite text-lg leading-relaxed">
+                                ทุกครั้งที่เธอยิ้มหรือหัวเราะ โลกของเค้าดูสดใสขึ้นทันทีเลย รู้ตัวไหมว่ายิ้มเธอน่ารักที่สุด!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="flip-card h-64 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass-card p-6 flex flex-col items-center justify-center text-center">
+                            <div class="w-16 h-16 rounded-full bg-love-100 flex items-center justify-center text-love-500 text-2xl mb-4 shadow-inner">
+                                <i class="fa-solid fa-cookie-bite"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-love-600">มื้ออาหารโปรดของเรา</h3>
+                            <p class="text-xs text-slate-400 mt-2">คลิกเพื่อพลิกดู ❤️</p>
+                        </div>
+                        <div class="flip-card-back bg-gradient-to-br from-love-500 to-love-600 text-white p-6 flex flex-col items-center justify-center text-center shadow-xl">
+                            <i class="fa-solid fa-quote-left text-love-200 text-2xl mb-2"></i>
+                            <p class="font-handwrite text-lg leading-relaxed">
+                                ไม่ว่าจะตระเวนหาของกินอร่อยๆ หรือแค่นั่งกินอะไรง่ายๆ ด้วยกัน มื้อนั้นก็อร่อยและพิเศษเสมอ
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="flip-card h-64 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass-card p-6 flex flex-col items-center justify-center text-center">
+                            <div class="w-16 h-16 rounded-full bg-love-100 flex items-center justify-center text-love-500 text-2xl mb-4 shadow-inner">
+                                <i class="fa-solid fa-hand-holding-heart"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-love-600">ความใส่ใจอบอุ่น</h3>
+                            <p class="text-xs text-slate-400 mt-2">คลิกเพื่อพลิกดู ❤️</p>
+                        </div>
+                        <div class="flip-card-back bg-gradient-to-br from-love-500 to-love-600 text-white p-6 flex flex-col items-center justify-center text-center shadow-xl">
+                            <i class="fa-solid fa-quote-left text-love-200 text-2xl mb-2"></i>
+                            <p class="font-handwrite text-lg leading-relaxed">
+                                ขอบคุณที่คอยเป็นห่วง เป็นที่พักพิงใจ และคอยซัพพอร์ตเค้าในทุกๆ เรื่องนะ
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="flip-card h-64 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass-card p-6 flex flex-col items-center justify-center text-center">
+                            <div class="w-16 h-16 rounded-full bg-love-100 flex items-center justify-center text-love-500 text-2xl mb-4 shadow-inner">
+                                <i class="fa-solid fa-plane-departure"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-love-600">ทริปเดินทางร่วมกัน</h3>
+                            <p class="text-xs text-slate-400 mt-2">คลิกเพื่อพลิกดู ❤️</p>
+                        </div>
+                        <div class="flip-card-back bg-gradient-to-br from-love-500 to-love-600 text-white p-6 flex flex-col items-center justify-center text-center shadow-xl">
+                            <i class="fa-solid fa-quote-left text-love-200 text-2xl mb-2"></i>
+                            <p class="font-handwrite text-lg leading-relaxed">
+                                ทุกที่ที่เราเดินทางไปด้วยกันกลายเป็นความทรงจำสุดแสนประทับใจ อยากไปเที่ยวรอบโลกกับเธอเลย!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="flip-card h-64 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass-card p-6 flex flex-col items-center justify-center text-center">
+                            <div class="w-16 h-16 rounded-full bg-love-100 flex items-center justify-center text-love-500 text-2xl mb-4 shadow-inner">
+                                <i class="fa-solid fa-comments"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-love-600">บทสนทนายามค่ำคืน</h3>
+                            <p class="text-xs text-slate-400 mt-2">คลิกเพื่อพลิกดู ❤️</p>
+                        </div>
+                        <div class="flip-card-back bg-gradient-to-br from-love-500 to-love-600 text-white p-6 flex flex-col items-center justify-center text-center shadow-xl">
+                            <i class="fa-solid fa-quote-left text-love-200 text-2xl mb-2"></i>
+                            <p class="font-handwrite text-lg leading-relaxed">
+                                คุยกับเธอได้ทุกเรื่องโดยไม่ต้องเสแสร้ง เป็นความสบายใจที่หาไม่ได้จากที่ไหนอีกแล้ว
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="flip-card h-64 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass-card p-6 flex flex-col items-center justify-center text-center">
+                            <div class="w-16 h-16 rounded-full bg-love-100 flex items-center justify-center text-love-500 text-2xl mb-4 shadow-inner">
+                                <i class="fa-solid fa-infinity"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-love-600">อนาคตของเรา</h3>
+                            <p class="text-xs text-slate-400 mt-2">คลิกเพื่อพลิกดู ❤️</p>
+                        </div>
+                        <div class="flip-card-back bg-gradient-to-br from-love-500 to-love-600 text-white p-6 flex flex-col items-center justify-center text-center shadow-xl">
+                            <i class="fa-solid fa-quote-left text-love-200 text-2xl mb-2"></i>
+                            <p class="font-handwrite text-lg leading-relaxed">
+                                สัญญาว่าจะคอยจับมือ ดูแล และรักเธอเพิ่มขึ้นในทุกๆ วันตลอดไปนะคนเก่ง
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -509,12 +617,7 @@
         <!-- SECTION 5: RANDOM REASON / COMPLIMENT GENERATOR -->
         <section class="glass-card p-8 rounded-3xl text-center space-y-6">
             <div class="max-w-md mx-auto space-y-2">
-                <div class="flex items-center justify-center gap-2">
-                    <h2 class="text-2xl font-bold text-love-700">กล่องสุ่มเหตุผลที่เค้ารักเธอ 🎰✨</h2>
-                    <button onclick="openCustomizerTab('quotes')" class="text-xs text-love-500 hover:text-love-700 underline">
-                        (เพิ่ม/แก้ไขคำ)
-                    </button>
-                </div>
+                <h2 class="text-2xl font-bold text-love-700">กล่องสุ่มเหตุผลที่เค้ารักเธอ 🎰✨</h2>
                 <p class="text-sm text-slate-500">กดปุ่มด้านล่างเพื่อดูสิว่าวันนี้เค้าจะบอกรักเธอว่าอะไร</p>
             </div>
 
@@ -877,6 +980,53 @@
             loadSavedVouchers();
             renderMemoryCards();
         });
+           1. NO BUTTON DODGE & YES SELECTION LOGIC
+        ------------------------------------------------------------- */
+        let dodgeCount = 0;
+        const dodgeMessages = [
+            "คิดอีกทีสิครับ 🥺",
+            "แน่ใจเหรอว่าไม่รัก? 💔",
+            "กดผิดแน่ๆ เลย! 😜",
+            "ปุ่มนี้กดไม่ได้หรอกน้า~",
+            "ยอมรับมาเหอะว่ารักเค้า! 💖",
+            "ไม่ให้กดปุ่มนี้แล้ว! 🙈",
+            "รักเค้าเหอะน้าาาา 💕"
+        ];
+
+        function dodgeNoButton() {
+            const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.getElementById('yesBtn');
+            const hint = document.getElementById('dodgeHint');
+
+            dodgeCount++;
+
+            // Calculate random repositioning within button area
+            const x = (Math.random() - 0.5) * 220;
+            const y = (Math.random() - 0.5) * 160;
+
+            noBtn.style.transform = `translate(${x}px, ${y}px) scale(${Math.max(0.6, 1 - dodgeCount * 0.08)})`;
+            
+            // Enlarge Yes button to make it super enticing!
+            const yesScale = 1 + (dodgeCount * 0.15);
+            yesBtn.style.transform = `scale(${yesScale})`;
+
+            // Change Text sequentially
+            const msgIndex = Math.min(dodgeCount - 1, dodgeMessages.length - 1);
+            noBtn.innerText = dodgeMessages[msgIndex];
+            hint.innerText = "*ปุ่มไม่รักชอบวิ่งหนี อย่าฝืนกดเลยครับ 😉";
+
+            // Spawn cute micro hearts on dodge
+            createHeartParticle(window.innerWidth/2, window.innerHeight/2);
+        }
+
+        function acceptLove() {
+            // Trigger Confetti Explosion
+            confetti({
+                particleCount: 120,
+                spread: 80,
+                origin: { y: 0.6 },
+                colors: ['#ff4d6d', '#ff758f', '#ffb3c1', '#ffffff', '#c9184a']
+            });
 
             setTimeout(() => {
                 confetti({
@@ -1265,4 +1415,8 @@
         }
     </script>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> 4e0d76fbbdc1be59111a2d8715a452584bd8fb5e
