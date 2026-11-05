@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love Story - สำหรับคนที่เค้ารักที่สุด 💕</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Itim&family=Mitr:wght@300;400;500;600&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        love: {
+                            50: '#fff0f3',
+                            100: '#ffccd5',
+                            200: '#ffb3c1',
+                            300: '#ff8fa3',
+                            400: '#ff758f',
+                            500: '#ff4d6d',
+                            600: '#c9184a',
+                            700: '#a4133c',
+                            800: '#800f2f',
+                            900: '#590d22',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Mitr', 'sans-serif'],
+                        handwrite: ['Itim', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 50%, #ffb3c1 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: 'Mitr', sans-serif;
+            user-select: none;
+        }
+
+        /* Glassmorphism utility */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 20px 40px rgba(255, 77, 109, 0.12);
+        }
+
+        .glass-card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card-hover:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(255, 77, 109, 0.25);
+        }
+
+        /* 3D Flip Card Effect */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1.5rem;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Interactive Envelope CSS Animation */
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+        }
+        .envelope {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            height: 260px;
+            background: #ff758f;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+            box-shadow: 0 15px 35px rgba(201, 24, 74, 0.25);
+            margin: 0 auto;
+        }
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 210px solid #ff8fa3;
+            border-right: 210px solid #ff8fa3;
+            border-top: 130px solid transparent;
+            border-bottom: 130px solid #ff8fa3;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+            z-index: 3;
+        }
+        @media (max-width: 480px) {
+            .envelope::before {
+                border-left-width: 170px;
+                border-right-width: 170px;
+                border-top-width: 110px;
+                border-bottom-width: 110px;
+            }
+            .envelope {
+                max-width: 340px;
+                height: 220px;
+            }
+        }
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 210px solid transparent;
+            border-right: 210px solid transparent;
+            border-top: 140px solid #ff4d6d;
+            transform-origin: top;
+            transition: transform 0.6s ease-in-out, z-index 0.6s;
+            z-index: 4;
+        }
+        @media (max-width: 480px) {
+            .envelope-flap {
+                border-left-width: 170px;
+                border-right-width: 170px;
+                border-top-width: 120px;
+            }
+        }
+        .envelope-wrapper.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+        .letter-content {
+            position: absolute;
+            bottom: 10px;
+            left: 5%;
+            width: 90%;
+            height: 90%;
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.6s ease-in-out;
+            z-index: 2;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        .envelope-wrapper.open .letter-content {
+            transform: translateY(-140px);
+            height: 340px;
+            z-index: 5;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        /* Glowing Pulse Animation */
+        .glow-heart {
+            animation: heartPulse 1.5s infinite ease-in-out;
+        }
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 77, 109, 0.6)); }
+            50% { transform: scale(1.15); filter: drop-shadow(0 0 25px rgba(255, 77, 109, 0.9)); }
+        }
+
+        /* Voucher Stamp Effect */
+        .stamp-redeemed {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-12deg);
+            border: 4px dashed #c9184a;
+            color: #c9184a;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 10px 25px rgba(201, 24, 74, 0.2);
+            pointer-events: none;
+            z-index: 20;
+            font-size: 1.25rem;
+            letter-spacing: 2px;
+            animation: stampPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes stampPop {
+            0% { transform: translate(-50%, -50%) rotate(-12deg) scale(2); opacity: 0; }
+            100% { transform: translate(-50%, -50%) rotate(-12deg) scale(1); opacity: 1; }
+        }
+
+        /* Hide scrollbars for clean UI */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="relative min-h-screen text-slate-800 antialiased overflow-x-hidden">
+
+    <!-- Ambient Floating Background Canvas -->
+    <canvas id="heartCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+    <!-- Background Music Toggle Floating Button -->
+    <div class="fixed top-5 right-5 z-50 flex items-center gap-2">
+        <button id="customizerBtn" onclick="openCustomizerModal()" class="glass-card px-3.5 py-2.5 rounded-full flex items-center gap-2 text-love-600 font-medium hover:bg-white transition-all shadow-lg active:scale-95 text-sm">
+            <i class="fa-solid fa-gear text-base text-love-500"></i>
+            <span class="hidden sm:inline font-semibold">แก้ไขคำ & ความทรงจำ</span>
+        </button>
+        <button id="musicToggleBtn" onclick="toggleMusic()" class="glass-card px-4 py-2.5 rounded-full flex items-center gap-3 text-love-600 font-medium hover:bg-white transition-all shadow-lg active:scale-95">
+            <i id="musicIcon" class="fa-solid fa-music text-lg animate-bounce"></i>
+            <span id="musicText" class="text-sm font-semibold">เปิดเพลงรัก 🎵</span>
+        </button>
+    </div>
+
+    <!-- ================= HERO LOCK OVERLAY (Confession Prompt) ================= -->
+    <div id="heroOverlay" class="fixed inset-0 z-40 flex items-center justify-center p-4 bg-love-50/90 backdrop-blur-md transition-opacity duration-700">
+        <div class="glass-card p-8 md:p-12 rounded-3xl max-w-lg w-full text-center relative overflow-hidden border-2 border-white/80 shadow-2xl">
+            
+            <div class="absolute -top-6 -left-6 text-love-200 opacity-50 text-7xl"><i class="fa-solid fa-heart"></i></div>
+            <div class="absolute -bottom-6 -right-6 text-love-200 opacity-50 text-7xl"><i class="fa-solid fa-heart"></i></div>
+
+            <div class="mb-6 inline-block">
+                <i class="fa-solid fa-heart text-6xl text-love-500 glow-heart"></i>
+            </div>
+            
+            <h1 class="text-3xl md:text-4xl font-bold text-love-700 mb-3 tracking-wide">
+                มีคำถามอยากถามเธอ...
+            </h1>
+            <p class="text-slate-600 mb-8 text-lg font-light">
+                ตอบคำถามจากหัวใจเค้าหน่อยนะ 💖
+            </p>
+
+            <div class="text-2xl md:text-3xl font-semibold text-love-600 mb-10 min-h-[40px]" id="questionText">
+                "รักเค้าไหมครับ?"
+            </div>
+
+            <!-- Interactive Choice Buttons Container -->
+            <div class="relative min-h-[120px] flex items-center justify-center gap-4 flex-wrap" id="buttonArea">
+                <!-- Yes Button (Grows when No is hovered/clicked) -->
+                <button id="yesBtn" onclick="acceptLove()" class="bg-gradient-to-r from-love-500 to-love-600 hover:from-love-600 hover:to-love-700 text-white font-bold text-xl px-8 py-4 rounded-full shadow-lg hover:shadow-love-500/40 transform transition-all duration-300 ease-out z-10 active:scale-95">
+                    รักที่สุด! 💖
+                </button>
+
+                <!-- Dodging No Button -->
+                <button id="noBtn" onmouseenter="dodgeNoButton()" onclick="dodgeNoButton()" ontouchstart="dodgeNoButton()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium text-lg px-6 py-3.5 rounded-full shadow transition-all duration-200 ease-out z-0">
+                    ไม่รัก 😜
+                </button>
+            </div>
+            
+            <p id="dodgeHint" class="text-xs text-love-400 mt-6 min-h-[20px] italic"></p>
+        </div>
+    </div>
+
+
+    <!-- ================= MAIN WEBSITE CONTENT (Revealed After Yes) ================= -->
+    <main id="mainContent" class="relative z-10 opacity-0 transition-opacity duration-1000 max-w-5xl mx-auto px-4 py-8 md:py-12 space-y-16">
+        
+        <!-- HEADER TITLE -->
+        <header class="text-center space-y-4 pt-4">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-love-100 text-love-600 text-sm font-medium border border-love-200 shadow-sm">
+                <i class="fa-solid fa-sparkles"></i> Space for Our Special Love
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-love-700 tracking-tight">
+                พื้นที่ความรักของเราสองคน 💕
+            </h1>
+            <p class="text-slate-600 text-lg md:text-xl font-light max-w-xl mx-auto">
+                ขอบคุณที่เข้ามาเป็นความสุข เป็นรอยยิ้ม และเป็นเรื่องราวที่ดีที่สุดในทุกๆ วันนะ
+            </p>
+        </header>
+
+        <!-- SECTION 1: LOVE DAYS COUNTER -->
+        <section class="glass-card p-6 md:p-8 rounded-3xl text-center relative">
+            <div class="flex items-center justify-center gap-2 mb-2 text-love-600 font-semibold text-lg">
+                <i class="fa-solid fa-calendar-heart text-xl"></i>
+                <span>เรารักกันมาแล้ว...</span>
+                <button onclick="openDateModal()" class="text-xs text-love-400 hover:text-love-600 underline ml-2">
+                    (แก้ไขวันครบรอบ)
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto my-6">
+                <div class="bg-white/80 p-4 rounded-2xl border border-love-100 shadow-sm">
+                    <span id="daysNum" class="block text-3xl md:text-5xl font-extrabold text-love-600">0</span>
+                    <span class="text-xs md:text-sm text-slate-500 font-medium">วัน</span>
+                </div>
+                <div class="bg-white/80 p-4 rounded-2xl border border-love-100 shadow-sm">
+                    <span id="hoursNum" class="block text-3xl md:text-5xl font-extrabold text-love-600">0</span>
+                    <span class="text-xs md:text-sm text-slate-500 font-medium">ชั่วโมง</span>
+                </div>
+                <div class="bg-white/80 p-4 rounded-2xl border border-love-100 shadow-sm">
+                    <span id="minutesNum" class="block text-3xl md:text-5xl font-extrabold text-love-600">0</span>
+                    <span class="text-xs md:text-sm text-slate-500 font-medium">นาที</span>
+                </div>
+                <div class="bg-white/80 p-4 rounded-2xl border border-love-100 shadow-sm">
+                    <span id="secondsNum" class="block text-3xl md:text-5xl font-extrabold text-love-600">0</span>
+                    <span class="text-xs md:text-sm text-slate-500 font-medium">วินาที</span>
+                </div>
+            </div>
+            
+            <p id="startDateText" class="text-xs text-slate-400">เริ่มต้นเดินทางตั้งแต่วันที่: 14 กุมภาพันธ์ 2023</p>
+        </section>
+
+
+        <!-- SECTION 2: INTERACTIVE SECRET LOVE LETTER ENVELOPE -->
+        <section class="text-center space-y-6">
+            <div>
+                <h2 class="text-2xl md:text-3xl font-bold text-love-700">จดหมายความในใจถึงเธอ 💌</h2>
+                <p class="text-slate-500 text-sm mt-1">คลิกที่ซองจดหมายเพื่อเปิดอ่านข้อความลับ</p>
+            </div>
+
+            <div class="py-6">
+                <div id="envelopeWrapper" class="envelope-wrapper" onclick="toggleEnvelope()">
+                    <div class="envelope">
+                        <div class="envelope-flap"></div>
+                        <div class="letter-content no-scrollbar text-left font-handwrite text-slate-700">
+                            <div class="flex justify-between items-center border-b pb-2 mb-3 border-love-100">
+                                <span class="font-bold text-love-600 text-lg">ถึง... คนพิเศษของเค้า ❤️</span>
+                                <span class="text-xs text-slate-400">จากหัวใจ</span>
+                            </div>
+                            <p id="letterBodyText" class="text-base md:text-lg leading-relaxed">
+                                ถึงเธอที่รัก... <br><br>
+                                ขอบคุณสำหรับทุกๆ รอยยิ้ม ความเข้าอกเข้าใจ และความอบอุ่นที่มีให้กันเสมอมานะ ทุกช่วงเวลาที่ได้อยู่กับเธอคือช่วงเวลาที่มีความสุขที่สุดในชีวิตของเค้าเลย <br><br>
+                                ไม่ว่าวันข้างหน้าจะเป็นยังไง เค้าอยากจับมือเธอแบบนี้ ร่วมหัวเราะและสร้างความทรงจำดีๆ ด้วยกันไปเรื่อยๆ นะครับ <br><br>
+                                รักเธอที่สุดในโลกเลยนะ! 💕✨
+                            </p>
+                            <div class="mt-4 text-right">
+                                <button onclick="event.stopPropagation(); openEditLetterModal();" class="text-xs text-love-500 underline hover:text-love-700">
+                                    [ แก้ไขข้อความจดหมาย ]
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- SECTION 3: LOVE VOUCHERS SYSTEM (คูปองเอาใจแฟน) -->
+        <section class="space-y-6">
+            <div class="text-center space-y-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-love-100 text-love-600 text-xs font-semibold">
+                    <i class="fa-solid fa-ticket-simple"></i> Special Privileges for You
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-love-700">คูปองเอาใจแฟนสุดพิเศษ 🎟️✨</h2>
+                <p class="text-slate-500 text-sm">ยื่นคูปองให้เค้าใช้งานได้ตลอดเวลาเลยนะ! (กดใช้แล้วตราปั๊มจะบันทึกให้อัตโนมัติ)</p>
+            </div>
+
+            <!-- Vouchers Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Voucher 1 -->
+                <div id="voucher-v1" class="glass-card rounded-2xl p-5 border-2 border-dashed border-love-300 relative overflow-hidden transition-all duration-300 flex flex-col justify-between">
+                    <div class="flex items-start justify-between gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-love-100 text-love-600 flex items-center justify-center text-2xl flex-shrink-0 shadow-sm">
+                            <i class="fa-solid fa-heart-circle-check"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <span class="text-[10px] font-bold tracking-widest text-love-400 uppercase">VOUCHER #01</span>
+                            <h3 class="font-bold text-lg text-love-700 leading-tight">คูปองง้อ 1 ครั้ง</h3>
+                            <p class="text-xs text-slate-500 mt-1">ใช้ได้ทันที ไม่มีเงื่อนไข ห้ามโกรธต่อเด็ดขาด!</p>
+                        </div>
+                    </div>
+                    <button id="btn-v1" onclick="openRedeemModal('v1', 'คูปองง้อ 1 ครั้ง (ไม่มีเงื่อนไข)')" class="w-full py-2.5 rounded-xl bg-love-500 hover:bg-love-600 text-white font-semibold text-sm transition-all shadow-md active:scale-95 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-hand-holding-heart"></i> ยื่นใช้คูปองนี้
+                    </button>
+                </div>
+
+                <!-- Voucher 2 -->
+                <div id="voucher-v2" class="glass-card rounded-2xl p-5 border-2 border-dashed border-love-300 relative overflow-hidden transition-all duration-300 flex flex-col justify-between">
+                    <div class="flex items-start justify-between gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-love-100 text-love-600 flex items-center justify-center text-2xl flex-shrink-0 shadow-sm">
+                            <i class="fa-solid fa-spa"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <span class="text-[10px] font-bold tracking-widest text-love-400 uppercase">VOUCHER #02</span>
+                            <h3 class="font-bold text-lg text-love-700 leading-tight">คูปองนวดหลัง 30 นาที</h3>
+                            <p class="text-xs text-slate-500 mt-1">บริการนวดคอ บ่า ไหล่ หรือหลังแบบ VIP โดยเค้าเอง</p>
+                        </div>
+                    </div>
+                    <button id="btn-v2" onclick="openRedeemModal('v2', 'คูปองนวดหลัง 30 นาที')" class="w-full py-2.5 rounded-xl bg-love-500 hover:bg-love-600 text-white font-semibold text-sm transition-all shadow-md active:scale-95 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-hand-holding-heart"></i> ยื่นใช้คูปองนี้
+                    </button>
+                </div>
+
+                <!-- Voucher 3 -->
+                <div id="voucher-v3" class="glass-card rounded-2xl p-5 border-2 border-dashed border-love-300 relative overflow-hidden transition-all duration-300 flex flex-col justify-between">
+                    <div class="flex items-start justify-between gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-love-100 text-love-600 flex items-center justify-center text-2xl flex-shrink-0 shadow-sm">
+                            <i class="fa-solid fa-utensils"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <span class="text-[10px] font-bold tracking-widest text-love-400 uppercase">VOUCHER #03</span>
+                            <h3 class="font-bold text-lg text-love-700 leading-tight">พากินของอร่อยตามใจ 1 วัน</h3>
+                            <p class="text-xs text-slate-500 mt-1">อยากกินชาบู หมูกระทะ หรือขนมหวาน เค้าเลี้ยงเอง!</p>
+                        </div>
+                    </div>
+                    <button id="btn-v3" onclick="openRedeemModal('v3', 'คูปองพาไปกินของอร่อยตามใจ 1 วัน')" class="w-full py-2.5 rounded-xl bg-love-500 hover:bg-love-600 text-white font-semibold text-sm transition-all shadow-md active:scale-95 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-hand-holding-heart"></i> ยื่นใช้คูปองนี้
+                    </button>
+                </div>
+
+                <!-- Voucher 4 -->
+                <div id="voucher-v4" class="glass-card rounded-2xl p-5 border-2 border-dashed border-love-300 relative overflow-hidden transition-all duration-300 flex flex-col justify-between">
+                    <div class="flex items-start justify-between gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-love-100 text-love-600 flex items-center justify-center text-2xl flex-shrink-0 shadow-sm">
+                            <i class="fa-solid fa-film"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <span class="text-[10px] font-bold tracking-widest text-love-400 uppercase">VOUCHER #04</span>
+                            <h3 class="font-bold text-lg text-love-700 leading-tight">ดูหนังตามใจแฟน 1 เรื่อง</h3>
+                            <p class="text-xs text-slate-500 mt-1">ให้เธอเป็นคนเลือกรวมถึงเตรียมป๊อปคอร์นไว้ให้ด้วย</p>
+                        </div>
+                    </div>
+                    <button id="btn-v4" onclick="openRedeemModal('v4', 'คูปองเลือกดูหนังตามใจแฟน 1 เรื่อง')" class="w-full py-2.5 rounded-xl bg-love-500 hover:bg-love-600 text-white font-semibold text-sm transition-all shadow-md active:scale-95 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-hand-holding-heart"></i> ยื่นใช้คูปองนี้
+                    </button>
+                </div>
+
+                <!-- Voucher 5 -->
+                <div id="voucher-v5" class="glass-card rounded-2xl p-5 border-2 border-dashed border-love-300 relative overflow-hidden transition-all duration-300 flex flex-col justify-between">
+                    <div class="flex items-start justify-between gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-love-100 text-love-600 flex items-center justify-center text-2xl flex-shrink-0 shadow-sm">
+                            <i class="fa-solid fa-[face-smile-wink]"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <span class="text-[10px] font-bold tracking-widest text-love-400 uppercase">VOUCHER #05</span>
+                            <h3 class="font-bold text-lg text-love-700 leading-tight">งดบ่นตามใจ 1 วันเต็ม</h3>
+                            <p class="text-xs text-slate-500 mt-1">วันนี้เธอคือนายท่าน! เค้าจะตามใจและไม่บ่นสักคำ</p>
+                        </div>
+                    </div>
+                    <button id="btn-v5" onclick="openRedeemModal('v5', 'คูปองงดบ่นตามใจ 1 วันเต็ม')" class="w-full py-2.5 rounded-xl bg-love-500 hover:bg-love-600 text-white font-semibold text-sm transition-all shadow-md active:scale-95 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-hand-holding-heart"></i> ยื่นใช้คูปองนี้
+                    </button>
+                </div>
+
+                <!-- Voucher 6 -->
+                <div id="voucher-v6" class="glass-card rounded-2xl p-5 border-2 border-dashed border-love-300 relative overflow-hidden transition-all duration-300 flex flex-col justify-between">
+                    <div class="flex items-start justify-between gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-love-100 text-love-600 flex items-center justify-center text-2xl flex-shrink-0 shadow-sm">
+                            <i class="fa-solid fa-hands-holding-child"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <span class="text-[10px] font-bold tracking-widest text-love-400 uppercase">VOUCHER #06</span>
+                            <h3 class="font-bold text-lg text-love-700 leading-tight">กอดอุ่นๆ ไม่จำกัดเวลา</h3>
+                            <p class="text-xs text-slate-500 mt-1">ขอกอดเมื่อไหร่ก็ได้ ชาร์จพลังใจได้ตลอด 24 ชม.</p>
+                        </div>
+                    </div>
+                    <button id="btn-v6" onclick="openRedeemModal('v6', 'คูปองกอดอุ่นๆ ไม่จำกัดเวลา')" class="w-full py-2.5 rounded-xl bg-love-500 hover:bg-love-600 text-white font-semibold text-sm transition-all shadow-md active:scale-95 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-hand-holding-heart"></i> ยื่นใช้คูปองนี้
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="text-center pt-2">
+                <button onclick="resetAllVouchers()" class="text-xs text-slate-400 hover:text-love-600 underline">
+                    <i class="fa-solid fa-rotate-left"></i> รีเซ็ตคูปองทั้งหมดให้กลับมาใช้ใหม่
+                </button>
+            </div>
+        </section>
+
+
+        <!-- SECTION 4: FLIP MEMORY CARDS -->
+        <section class="space-y-6">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="text-center sm:text-left">
+                    <h2 class="text-2xl md:text-3xl font-bold text-love-700">เหตุผล & ความทรงจำที่เค้าหลงรักเธอ ✨</h2>
+                    <p class="text-slate-500 text-sm mt-1">คลิกที่การ์ดแต่ละใบเพื่อพลิกดูความลับนะ (สามารถกดแก้ไข/เพิ่มการ์ดได้)</p>
+                </div>
+                <button onclick="openCustomizerTab('cards')" class="px-4 py-2 bg-love-100 hover:bg-love-200 text-love-700 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm">
+                    <i class="fa-solid fa-pen-to-square"></i> แก้ไขการ์ดความทรงจำ
+                </button>
+            </div>
+
+            <!-- Dynamic Memory Cards Container -->
+            <div id="memoryCardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cards rendered dynamically via JS -->
+            </div>
+        </section>
+
+
+        <!-- SECTION 5: RANDOM REASON / COMPLIMENT GENERATOR -->
+        <section class="glass-card p-8 rounded-3xl text-center space-y-6">
+            <div class="max-w-md mx-auto space-y-2">
+                <div class="flex items-center justify-center gap-2">
+                    <h2 class="text-2xl font-bold text-love-700">กล่องสุ่มเหตุผลที่เค้ารักเธอ 🎰✨</h2>
+                    <button onclick="openCustomizerTab('quotes')" class="text-xs text-love-500 hover:text-love-700 underline">
+                        (เพิ่ม/แก้ไขคำ)
+                    </button>
+                </div>
+                <p class="text-sm text-slate-500">กดปุ่มด้านล่างเพื่อดูสิว่าวันนี้เค้าจะบอกรักเธอว่าอะไร</p>
+            </div>
+
+            <div class="bg-white/90 p-6 md:p-8 rounded-2xl border border-love-100 shadow-inner max-w-xl mx-auto min-h-[130px] flex items-center justify-center">
+                <p id="quoteDisplay" class="text-xl md:text-2xl font-handwrite text-love-600 leading-relaxed transition-all duration-300">
+                    "กดปุ่มสุ่มความรักข้างล่างเลยสิครับ ❤️"
+                </p>
+            </div>
+
+            <button onclick="generateRandomQuote()" class="bg-gradient-to-r from-love-400 to-love-600 hover:from-love-500 hover:to-love-700 text-white font-bold text-lg px-8 py-3.5 rounded-full shadow-lg hover:shadow-love-400/50 transform active:scale-95 transition-all flex items-center gap-2 mx-auto">
+                <i class="fa-solid fa-dice text-xl"></i>
+                <span>สุ่มบอกรักเธอ 💕</span>
+            </button>
+        </section>
+
+
+        <!-- FOOTER -->
+        <footer class="text-center py-8 border-t border-love-200/60 space-y-2">
+            <p class="text-love-600 font-semibold text-lg">
+                Made with <i class="fa-solid fa-heart text-love-500 animate-pulse"></i> for My Favorite Person in the World
+            </p>
+            <p class="text-xs text-slate-400">
+                © Created with endless love & care
+            </p>
+        </footer>
+
+    </main>
+
+
+    <!-- ================= MODALS ================= -->
+
+    <!-- Date Edit Modal -->
+    <div id="dateModal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="glass-card p-6 rounded-3xl max-w-sm w-full space-y-4">
+            <h3 class="text-xl font-bold text-love-700 text-center">เลือกวันเริ่มรักกัน 💕</h3>
+            <div>
+                <label class="block text-xs text-slate-500 mb-1">วัน/เดือน/ปี ที่เริ่มคบกัน:</label>
+                <input type="date" id="anniversaryInput" class="w-full px-4 py-2.5 rounded-xl border border-love-200 focus:outline-none focus:ring-2 focus:ring-love-400 text-slate-700">
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeDateModal()" class="w-1/2 py-2 rounded-full border border-slate-300 text-slate-600 font-medium">ยกเลิก</button>
+                <button onclick="saveAnniversaryDate()" class="w-1/2 py-2 rounded-full bg-love-500 text-white font-semibold hover:bg-love-600">บันทึก</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Letter Edit Modal -->
+    <div id="letterModal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="glass-card p-6 rounded-3xl max-w-md w-full space-y-4">
+            <h3 class="text-xl font-bold text-love-700 text-center">แก้ไขข้อความความในใจ ✍️</h3>
+            <div>
+                <textarea id="letterInput" rows="6" class="w-full p-3 rounded-xl border border-love-200 focus:outline-none focus:ring-2 focus:ring-love-400 font-handwrite text-lg text-slate-700" placeholder="พิมพ์ข้อความรักหวานๆ ที่นี่..."></textarea>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="closeLetterModal()" class="w-1/2 py-2 rounded-full border border-slate-300 text-slate-600 font-medium">ยกเลิก</button>
+                <button onclick="saveLetterText()" class="w-1/2 py-2 rounded-full bg-love-500 text-white font-semibold hover:bg-love-600">บันทึกข้อความ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voucher Confirmation Modal -->
+    <div id="voucherModal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="glass-card p-6 rounded-3xl max-w-sm w-full text-center space-y-4">
+            <div class="w-16 h-16 rounded-full bg-love-100 text-love-500 flex items-center justify-center text-3xl mx-auto shadow-inner">
+                <i class="fa-solid fa-ticket"></i>
+            </div>
+            <h3 class="text-xl font-bold text-love-700">ยืนยันการใช้คูปอง 🎟️</h3>
+            <p id="voucherModalText" class="text-sm text-slate-600 font-medium">คุณกำลังจะใช้คูปองนี้ใช่ไหมครับ?</p>
+            <div class="flex gap-2 pt-2">
+                <button onclick="closeVoucherModal()" class="w-1/2 py-2.5 rounded-full border border-slate-300 text-slate-600 font-medium">ย้อนกลับ</button>
+                <button onclick="confirmRedeemVoucher()" class="w-1/2 py-2.5 rounded-full bg-love-500 text-white font-semibold hover:bg-love-600 shadow-md">ยืนยันการใช้!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customizer Modal (Edit Quotes & Memory Cards) -->
+    <div id="customizerModal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="glass-card p-6 md:p-8 rounded-3xl max-w-2xl w-full my-8 space-y-6 max-h-[90vh] flex flex-col bg-white/95">
+            <div class="flex justify-between items-center border-b pb-3 border-love-100">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-love-500 text-xl"></i>
+                    <h3 class="text-xl font-bold text-love-700">ปรับแต่งคำบอกรัก & ความทรงจำ ⚙️</h3>
+                </div>
+                <button onclick="closeCustomizerModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold p-1">✕</button>
+            </div>
+
+            <!-- Tab Buttons -->
+            <div class="flex border-b border-love-100 gap-2">
+                <button id="tabQuotesBtn" onclick="switchCustomizerTab('quotes')" class="py-2 px-4 font-semibold text-sm border-b-2 border-love-500 text-love-600">
+                    <i class="fa-solid fa-dice mr-1"></i> คำบอกรักในกล่องสุ่ม
+                </button>
+                <button id="tabCardsBtn" onclick="switchCustomizerTab('cards')" class="py-2 px-4 font-semibold text-sm border-b-2 border-transparent text-slate-500 hover:text-love-600">
+                    <i class="fa-solid fa-images mr-1"></i> การ์ดความทรงจำ (Flip Cards)
+                </button>
+            </div>
+
+            <!-- TAB 1: QUOTES EDITOR -->
+            <div id="tabQuotesContent" class="space-y-4 overflow-y-auto no-scrollbar pr-1 flex-grow">
+                <p class="text-xs text-slate-500">จัดการคำหวานๆ ที่จะสุ่มขึ้นมาแสดงในกล่องสุ่มบอกรัก:</p>
+                <div id="quotesList" class="space-y-2">
+                    <!-- Dynamic quote rows -->
+                </div>
+                <button onclick="addQuoteRow()" class="w-full py-2.5 border-2 border-dashed border-love-300 text-love-600 hover:bg-love-50 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-all">
+                    <i class="fa-solid fa-plus"></i> เพิ่มคำบอกรักใหม่
+                </button>
+            </div>
+
+            <!-- TAB 2: MEMORY CARDS EDITOR -->
+            <div id="tabCardsContent" class="space-y-4 overflow-y-auto no-scrollbar pr-1 flex-grow hidden">
+                <p class="text-xs text-slate-500">เพิ่ม แก้ไข หรือลบการ์ดความทรงจำที่จะพลิกดูได้:</p>
+                <div id="cardsEditList" class="space-y-4">
+                    <!-- Dynamic card edit rows -->
+                </div>
+                <button onclick="addCardRow()" class="w-full py-2.5 border-2 border-dashed border-love-300 text-love-600 hover:bg-love-50 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-all">
+                    <i class="fa-solid fa-plus"></i> เพิ่มการ์ดความทรงจำใหม่
+                </button>
+            </div>
+
+            <!-- Footer Buttons -->
+            <div class="flex justify-between items-center pt-3 border-t border-love-100">
+                <button onclick="resetCustomizerToDefault()" class="text-xs text-slate-400 hover:text-red-500 underline">
+                    คืนค่าตั้งต้นทั้งหมด
+                </button>
+                <div class="flex gap-2">
+                    <button onclick="closeCustomizerModal()" class="px-5 py-2 rounded-full border border-slate-300 text-slate-600 text-sm font-medium">ยกเลิก</button>
+                    <button onclick="saveCustomizerData()" class="px-6 py-2 rounded-full bg-love-500 hover:bg-love-600 text-white text-sm font-semibold shadow-md">บันทึกเปลี่ยนแปลง ❤️</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        /* -------------------------------------------------------------
+           5. FLIP CARD ACTION & DYNAMIC CARDS SYSTEM
+        ------------------------------------------------------------- */
+        const defaultMemoryCards = [
+            { icon: "fa-face-smile-beam", title: "รอยยิ้มของคุณ", desc: "ทุกครั้งที่เธอยิ้มหรือหัวเราะ โลกของเค้าดูสดใสขึ้นทันทีเลย รู้ตัวไหมว่ายิ้มเธอน่ารักที่สุด!" },
+            { icon: "fa-cookie-bite", title: "มื้ออาหารโปรดของเรา", desc: "ไม่ว่าจะตระเวนหาของกินอร่อยๆ หรือแค่นั่งกินอะไรง่ายๆ ด้วยกัน มื้อนั้นก็อร่อยและพิเศษเสมอ" },
+            { icon: "fa-hand-holding-heart", title: "ความใส่ใจอบอุ่น", desc: "ขอบคุณที่คอยเป็นห่วง เป็นที่พักพิงใจ และคอยซัพพอร์ตเค้าในทุกๆ เรื่องนะ" },
+            { icon: "fa-plane-departure", title: "ทริปเดินทางร่วมกัน", desc: "ทุกที่ที่เราเดินทางไปด้วยกันกลายเป็นความทรงจำสุดแสนประทับใจ อยากไปเที่ยวรอบโลกกับเธอเลย!" },
+            { icon: "fa-comments", title: "บทสนทนายามค่ำคืน", desc: "คุยกับเธอได้ทุกเรื่องโดยไม่ต้องเสแสร้ง เป็นความสบายใจที่หาไม่ได้จากที่ไหนอีกแล้ว" },
+            { icon: "fa-infinity", title: "อนาคตของเรา", desc: "สัญญาว่าจะคอยจับมือ ดูแล และรักเธอเพิ่มขึ้นในทุกๆ วันตลอดไปนะคนเก่ง" }
+        ];
+
+        let memoryCards = JSON.parse(localStorage.getItem('custom_memory_cards')) || defaultMemoryCards;
+
+        function renderMemoryCards() {
+            const container = document.getElementById('memoryCardsContainer');
+            if (!container) return;
+
+            container.innerHTML = memoryCards.map(card => `
+                <div class="flip-card h-64 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass-card p-6 flex flex-col items-center justify-center text-center">
+                            <div class="w-16 h-16 rounded-full bg-love-100 flex items-center justify-center text-love-500 text-2xl mb-4 shadow-inner">
+                                <i class="fa-solid ${card.icon || 'fa-heart'}"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-love-600">${escapeHtml(card.title)}</h3>
+                            <p class="text-xs text-slate-400 mt-2">คลิกเพื่อพลิกดู ❤️</p>
+                        </div>
+                        <div class="flip-card-back bg-gradient-to-br from-love-500 to-love-600 text-white p-6 flex flex-col items-center justify-center text-center shadow-xl">
+                            <i class="fa-solid fa-quote-left text-love-200 text-2xl mb-2"></i>
+                            <p class="font-handwrite text-lg leading-relaxed">
+                                ${escapeHtml(card.desc)}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function flipCard(cardElem) {
+            cardElem.classList.toggle('flipped');
+            playChimeSound();
+        }
+
+
+        /* -------------------------------------------------------------
+           6. RANDOM LOVE REASONS GENERATOR (DYNAMIC)
+        ------------------------------------------------------------- */
+        const defaultLoveQuotes = [
+            "ชอบเวลาที่เธอยิ้มที่สุดในโลกเลย 😊",
+            "ขอบคุณที่คอยเป็นความสบายใจให้เค้าเสมอนะ ❤️",
+            "เธอคือของขวัญที่ดีที่สุดที่เค้าเคยได้รับ 🎁",
+            "รักทุกอย่างที่เป็นเธอเลยนะคนเก่ง 🌟",
+            "อยู่เป็นความสุขของกันและกันแบบนี้ไปนานๆ นะ 💕",
+            "แค่มองหน้าเธอ เรื่องเหนื่อยๆ ก็หายเป็นปริบทิ้งเลย ✨",
+            "น่ารักขึ้นทุกวันแบบนี้ จะไม่ให้รักได้ยังไงไหว 🥺",
+            "ขอบคุณที่เข้ามาเติมเต็มหัวใจให้มีความหมายนะ 💖",
+            "สัญญาว่าจะดูแลหัวใจเธอให้ดีที่สุดเลยครับ 🤝"
+        ];
+
+        let loveQuotes = JSON.parse(localStorage.getItem('custom_love_quotes')) || defaultLoveQuotes;
+
+        function generateRandomQuote() {
+            const display = document.getElementById('quoteDisplay');
+            if (loveQuotes.length === 0) {
+                display.innerText = '"กรุณาเพิ่มคำบอกรักในการตั้งค่าสิครับ ❤️"';
+                return;
+            }
+            display.style.opacity = '0';
+            display.style.transform = 'scale(0.95)';
+
+            setTimeout(() => {
+                const randomIndex = Math.floor(Math.random() * loveQuotes.length);
+                display.innerText = `"${loveQuotes[randomIndex]}"`;
+                display.style.opacity = '1';
+                display.style.transform = 'scale(1)';
+            }, 200);
+
+            playChimeSound();
+        }
+
+        /* -------------------------------------------------------------
+           6.1 CUSTOMIZER MODAL CONTROLLER & LOGIC
+        ------------------------------------------------------------- */
+        let tempQuotes = [];
+        let tempCards = [];
+
+        function escapeHtml(str) {
+            return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function openCustomizerModal() {
+            tempQuotes = [...loveQuotes];
+            tempCards = JSON.parse(JSON.stringify(memoryCards));
+            
+            renderQuotesEditList();
+            renderCardsEditList();
+
+            document.getElementById('customizerModal').classList.remove('hidden');
+            document.getElementById('customizerModal').classList.add('flex');
+        }
+
+        function openCustomizerTab(tab) {
+            openCustomizerModal();
+            switchCustomizerTab(tab);
+        }
+
+        function closeCustomizerModal() {
+            document.getElementById('customizerModal').classList.add('hidden');
+            document.getElementById('customizerModal').classList.remove('flex');
+        }
+
+        function switchCustomizerTab(tab) {
+            const tabQBtn = document.getElementById('tabQuotesBtn');
+            const tabCBtn = document.getElementById('tabCardsBtn');
+            const tabQContent = document.getElementById('tabQuotesContent');
+            const tabCContent = document.getElementById('tabCardsContent');
+
+            if (tab === 'quotes') {
+                tabQBtn.className = "py-2 px-4 font-semibold text-sm border-b-2 border-love-500 text-love-600";
+                tabCBtn.className = "py-2 px-4 font-semibold text-sm border-b-2 border-transparent text-slate-500 hover:text-love-600";
+                tabQContent.classList.remove('hidden');
+                tabCContent.classList.add('hidden');
+            } else {
+                tabCBtn.className = "py-2 px-4 font-semibold text-sm border-b-2 border-love-500 text-love-600";
+                tabQBtn.className = "py-2 px-4 font-semibold text-sm border-b-2 border-transparent text-slate-500 hover:text-love-600";
+                tabCContent.classList.remove('hidden');
+                tabQContent.classList.add('hidden');
+            }
+        }
+
+        /* Quotes List Edit Handlers */
+        function renderQuotesEditList() {
+            const list = document.getElementById('quotesList');
+            list.innerHTML = tempQuotes.map((q, idx) => `
+                <div class="flex items-center gap-2">
+                    <input type="text" value="${escapeHtml(q)}" oninput="tempQuotes[${idx}] = this.value" class="flex-grow px-3 py-2 rounded-xl border border-love-200 focus:outline-none focus:ring-2 focus:ring-love-400 text-sm text-slate-700" placeholder="พิมพ์คำบอกรัก...">
+                    <button onclick="removeQuoteRow(${idx})" class="text-red-400 hover:text-red-600 p-2 text-sm"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+            `).join('');
+        }
+
+        function addQuoteRow() {
+            tempQuotes.push("รักเธอมากกว่าใครในโลกเลย 💕");
+            renderQuotesEditList();
+        }
+
+        function removeQuoteRow(idx) {
+            tempQuotes.splice(idx, 1);
+            renderQuotesEditList();
+        }
+
+        /* Memory Cards Edit Handlers */
+        const iconOptions = [
+            "fa-face-smile-beam", "fa-cookie-bite", "fa-hand-holding-heart",
+            "fa-plane-departure", "fa-comments", "fa-infinity", "fa-star", "fa-heart", "fa-gift", "fa-music"
+        ];
+
+        function renderCardsEditList() {
+            const list = document.getElementById('cardsEditList');
+            list.innerHTML = tempCards.map((c, idx) => `
+                <div class="p-4 bg-love-50/60 rounded-2xl border border-love-200 space-y-3 relative">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold text-love-600 uppercase">การ์ดใบที่ #${idx + 1}</span>
+                        <button onclick="removeCardRow(${idx})" class="text-red-400 hover:text-red-600 text-xs flex items-center gap-1"><i class="fa-solid fa-trash-can"></i> ลบการ์ดนี้</button>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <div class="sm:col-span-2">
+                            <label class="text-[10px] text-slate-500 font-semibold block mb-0.5">หัวข้อหน้าการ์ด (Front Title):</label>
+                            <input type="text" value="${escapeHtml(c.title)}" oninput="tempCards[${idx}].title = this.value" class="w-full px-3 py-1.5 rounded-lg border border-love-200 text-sm focus:outline-none focus:ring-1 focus:ring-love-400">
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-slate-500 font-semibold block mb-0.5">เลือกไอคอน:</label>
+                            <select onchange="tempCards[${idx}].icon = this.value" class="w-full px-2 py-1.5 rounded-lg border border-love-200 text-xs focus:outline-none focus:ring-1 focus:ring-love-400">
+                                ${iconOptions.map(ico => `<option value="${ico}" ${c.icon === ico ? 'selected' : ''}>${ico.replace('fa-', '')}</option>`).join('')}
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-[10px] text-slate-500 font-semibold block mb-0.5">ข้อความในใจหลังการ์ด (Back Description):</label>
+                        <textarea oninput="tempCards[${idx}].desc = this.value" rows="2" class="w-full px-3 py-1.5 rounded-lg border border-love-200 text-xs focus:outline-none focus:ring-1 focus:ring-love-400 font-handwrite text-sm">${escapeHtml(c.desc)}</textarea>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addCardRow() {
+            tempCards.push({
+                icon: "fa-heart",
+                title: "ความทรงจำใหม่",
+                desc: "พิมพ์ข้อความความทรงจำน่ารักๆ ของคุณสองคนได้ที่นี่..."
+            });
+            renderCardsEditList();
+        }
+
+        function removeCardRow(idx) {
+            tempCards.splice(idx, 1);
+            renderCardsEditList();
+        }
+
+        function saveCustomizerData() {
+            loveQuotes = tempQuotes.filter(q => q.trim() !== '');
+            memoryCards = tempCards.filter(c => c.title.trim() !== '');
+
+            localStorage.setItem('custom_love_quotes', JSON.stringify(loveQuotes));
+            localStorage.setItem('custom_memory_cards', JSON.stringify(memoryCards));
+
+            renderMemoryCards();
+            closeCustomizerModal();
+            playChimeSound();
+        }
+
+        function resetCustomizerToDefault() {
+            if (confirm("ต้องการคืนค่าคำบอกรักและการ์ดความทรงจำกลับเป็นค่าเริ่มต้นทั้งหมดใช่ไหมครับ?")) {
+                localStorage.removeItem('custom_love_quotes');
+                localStorage.removeItem('custom_memory_cards');
+                loveQuotes = [...defaultLoveQuotes];
+                memoryCards = [...defaultMemoryCards];
+                renderMemoryCards();
+                closeCustomizerModal();
+            }
+        }
+
+        // Render Memory Cards on Init
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSavedVouchers();
+            renderMemoryCards();
+        });
+
+            setTimeout(() => {
+                confetti({
+                    particleCount: 80,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 }
+                });
+                confetti({
+                    particleCount: 80,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 }
+                });
+            }, 250);
+
+            // Fade out hero lock overlay and reveal main website
+            const hero = document.getElementById('heroOverlay');
+            const main = document.getElementById('mainContent');
+
+            hero.style.opacity = '0';
+            setTimeout(() => {
+                hero.style.display = 'none';
+                main.classList.remove('opacity-0');
+                main.classList.add('opacity-100');
+            }, 700);
+
+            startMelody();
+        }
+
+
+        /* -------------------------------------------------------------
+           2. LIVE LOVE COUNTER LOGIC
+        ------------------------------------------------------------- */
+        let startDate = new Date('2023-02-14T00:00:00');
+
+        function updateCounter() {
+            const now = new Date();
+            const diffMs = now - startDate;
+
+            if (diffMs < 0) {
+                document.getElementById('daysNum').innerText = "0";
+                document.getElementById('hoursNum').innerText = "0";
+                document.getElementById('minutesNum').innerText = "0";
+                document.getElementById('secondsNum').innerText = "0";
+                return;
+            }
+
+            const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diffMs / (1000 * 60)) % 60);
+            const seconds = Math.floor((diffMs / 1000) % 60);
+
+            document.getElementById('daysNum').innerText = days;
+            document.getElementById('hoursNum').innerText = hours;
+            document.getElementById('minutesNum').innerText = minutes;
+            document.getElementById('secondsNum').innerText = seconds;
+        }
+
+        setInterval(updateCounter, 1000);
+        updateCounter();
+
+        function openDateModal() {
+            document.getElementById('dateModal').classList.remove('hidden');
+            document.getElementById('dateModal').classList.add('flex');
+        }
+        function closeDateModal() {
+            document.getElementById('dateModal').classList.add('hidden');
+            document.getElementById('dateModal').classList.remove('flex');
+        }
+        function saveAnniversaryDate() {
+            const val = document.getElementById('anniversaryInput').value;
+            if (val) {
+                startDate = new Date(val + 'T00:00:00');
+                document.getElementById('startDateText').innerText = `เริ่มต้นเดินทางตั้งแต่วันที่: ${startDate.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' })}`;
+                updateCounter();
+            }
+            closeDateModal();
+        }
+
+
+        /* -------------------------------------------------------------
+           3. INTERACTIVE ENVELOPE & LETTER MODAL
+        ------------------------------------------------------------- */
+        function toggleEnvelope() {
+            const wrapper = document.getElementById('envelopeWrapper');
+            wrapper.classList.toggle('open');
+            playChimeSound();
+        }
+
+        function openEditLetterModal() {
+            document.getElementById('letterInput').value = document.getElementById('letterBodyText').innerHTML.replace(/<br\s*\/?>/mg, "\n").trim();
+            document.getElementById('letterModal').classList.remove('hidden');
+            document.getElementById('letterModal').classList.add('flex');
+        }
+        function closeLetterModal() {
+            document.getElementById('letterModal').classList.add('hidden');
+            document.getElementById('letterModal').classList.remove('flex');
+        }
+        function saveLetterText() {
+            const text = document.getElementById('letterInput').value;
+            if (text.trim()) {
+                document.getElementById('letterBodyText').innerHTML = text.replace(/\n/g, "<br>");
+            }
+            closeLetterModal();
+        }
+
+
+        /* -------------------------------------------------------------
+           4. LOVE VOUCHERS SYSTEM (WITH LOCALSTORAGE)
+        ------------------------------------------------------------- */
+        let currentSelectedVoucher = null;
+
+        function openRedeemModal(id, title) {
+            currentSelectedVoucher = id;
+            document.getElementById('voucherModalText').innerText = `ต้องการใช้ "${title}" ใช่ไหมครับ?`;
+            document.getElementById('voucherModal').classList.remove('hidden');
+            document.getElementById('voucherModal').classList.add('flex');
+        }
+
+        function closeVoucherModal() {
+            document.getElementById('voucherModal').classList.add('hidden');
+            document.getElementById('voucherModal').classList.remove('flex');
+        }
+
+        function confirmRedeemVoucher() {
+            if (!currentSelectedVoucher) return;
+            
+            // Redeem action
+            redeemVoucherUI(currentSelectedVoucher);
+            
+            // Save state in localStorage
+            let redeemed = JSON.parse(localStorage.getItem('love_redeemed_vouchers') || '[]');
+            if (!redeemed.includes(currentSelectedVoucher)) {
+                redeemed.push(currentSelectedVoucher);
+                localStorage.setItem('love_redeemed_vouchers', JSON.stringify(redeemed));
+            }
+
+            closeVoucherModal();
+
+            // Celebration Effect
+            confetti({
+                particleCount: 60,
+                spread: 70,
+                origin: { y: 0.7 }
+            });
+            playChimeSound();
+        }
+
+        function redeemVoucherUI(id) {
+            const card = document.getElementById(`voucher-${id}`);
+            const btn = document.getElementById(`btn-${id}`);
+
+            if (card && !card.querySelector('.stamp-redeemed')) {
+                // Add Stamp
+                const stamp = document.createElement('div');
+                stamp.className = 'stamp-redeemed';
+                stamp.innerText = 'REDEEMED / ใช้แล้ว ❤️';
+                card.appendChild(stamp);
+
+                // Update Button
+                btn.disabled = true;
+                btn.className = 'w-full py-2.5 rounded-xl bg-slate-300 text-slate-500 font-semibold text-sm cursor-not-allowed flex items-center justify-center gap-2';
+                btn.innerHTML = '<i class="fa-solid fa-check-double"></i> ใช้คูปองแล้ว';
+            }
+        }
+
+        function loadSavedVouchers() {
+            const redeemed = JSON.parse(localStorage.getItem('love_redeemed_vouchers') || '[]');
+            redeemed.forEach(id => {
+                redeemVoucherUI(id);
+            });
+        }
+
+        function resetAllVouchers() {
+            localStorage.removeItem('love_redeemed_vouchers');
+            const vouchers = ['v1', 'v2', 'v3', 'v4', 'v5', 'v6'];
+            vouchers.forEach(id => {
+                const card = document.getElementById(`voucher-${id}`);
+                const btn = document.getElementById(`btn-${id}`);
+                const stamp = card.querySelector('.stamp-redeemed');
+                if (stamp) stamp.remove();
+                if (btn) {
+                    btn.disabled = false;
+                    btn.className = 'w-full py-2.5 rounded-xl bg-love-500 hover:bg-love-600 text-white font-semibold text-sm transition-all shadow-md active:scale-95 flex items-center justify-center gap-2';
+                    btn.innerHTML = '<i class="fa-solid fa-hand-holding-heart"></i> ยื่นใช้คูปองนี้';
+                }
+            });
+        }
+
+        // Initialize state on load
+        window.addEventListener('DOMContentLoaded', loadSavedVouchers);
+
+
+        /* -------------------------------------------------------------
+           5. FLIP CARD ACTION
+        ------------------------------------------------------------- */
+        function flipCard(cardElem) {
+            cardElem.classList.toggle('flipped');
+            playChimeSound();
+        }
+
+
+        /* -------------------------------------------------------------
+           6. RANDOM LOVE REASONS GENERATOR
+        ------------------------------------------------------------- */
+        const loveQuotes = [
+            "ชอบเวลาที่เธอยิ้มที่สุดในโลกเลย 😊",
+            "ขอบคุณที่คอยเป็นความสบายใจให้เค้าเสมอนะ ❤️",
+            "เธอคือของขวัญที่ดีที่สุดที่เค้าเคยได้รับ 🎁",
+            "รักทุกอย่างที่เป็นเธอเลยนะคนเก่ง 🌟",
+            "อยู่เป็นความสุขของกันและกันแบบนี้ไปนานๆ นะ 💕",
+            "แค่มองหน้าเธอ เรื่องเหนื่อยๆ ก็หายเป็นปริบทิ้งเลย ✨",
+            "น่ารักขึ้นทุกวันแบบนี้ จะไม่ให้รักได้ยังไงไหว 🥺",
+            "ขอบคุณที่เข้ามาเติมเต็มหัวใจให้มีความหมายนะ 💖",
+            "สัญญาว่าจะดูแลหัวใจเธอให้ดีที่สุดเลยครับ 🤝"
+        ];
+
+        function generateRandomQuote() {
+            const display = document.getElementById('quoteDisplay');
+            display.style.opacity = '0';
+            display.style.transform = 'scale(0.95)';
+
+            setTimeout(() => {
+                const randomIndex = Math.floor(Math.random() * loveQuotes.length);
+                display.innerText = `"${loveQuotes[randomIndex]}"`;
+                display.style.opacity = '1';
+                display.style.transform = 'scale(1)';
+            }, 200);
+
+            playChimeSound();
+        }
+
+
+        /* -------------------------------------------------------------
+           7. BACKGROUND PARTICLES & CLICK BURST CANVAS
+        ------------------------------------------------------------- */
+        const canvas = document.getElementById('heartCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class FloatingHeart {
+            constructor(x, y, isBurst = false) {
+                this.x = x || Math.random() * canvas.width;
+                this.y = y || canvas.height + 20;
+                this.size = Math.random() * 14 + 10;
+                this.speedY = isBurst ? (Math.random() - 0.7) * 4 : Math.random() * 1.5 + 0.8;
+                this.speedX = isBurst ? (Math.random() - 0.5) * 4 : Math.sin(this.y * 0.01);
+                this.opacity = 1;
+                this.fade = isBurst ? 0.02 : 0.003;
+                this.color = `hsla(${340 + Math.random() * 30}, 100%, ${60 + Math.random() * 20}%, `;
+            }
+
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                this.opacity -= this.fade;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.fillStyle = this.color + this.opacity + ')';
+                ctx.beginPath();
+                const topCurveHeight = this.size * 0.3;
+                ctx.moveTo(0, topCurveHeight);
+                ctx.bezierCurveTo(0, 0, -this.size / 2, 0, -this.size / 2, topCurveHeight);
+                ctx.bezierCurveTo(-this.size / 2, (this.size + topCurveHeight) / 2, 0, this.size, 0, this.size);
+                ctx.bezierCurveTo(0, this.size, this.size / 2, (this.size + topCurveHeight) / 2, this.size / 2, topCurveHeight);
+                ctx.bezierCurveTo(this.size / 2, 0, 0, 0, 0, topCurveHeight);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        setInterval(() => {
+            if (particles.length < 35) {
+                particles.push(new FloatingHeart());
+            }
+        }, 300);
+
+        function createHeartParticle(x, y) {
+            for (let i = 0; i < 6; i++) {
+                particles.push(new FloatingHeart(x, y, true));
+            }
+        }
+
+        window.addEventListener('click', (e) => {
+            createHeartParticle(e.clientX, e.clientY);
+        });
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].opacity <= 0 || particles[i].y < -20) {
+                    particles.splice(i, 1);
+                }
+            }
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+
+        /* -------------------------------------------------------------
+           8. WEB AUDIO API SYNTHESIZER
+        ------------------------------------------------------------- */
+        let audioCtx = null;
+        let isMusicPlaying = false;
+        let melodyInterval = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        const notes = [261.63, 329.63, 392.00, 440.00, 523.25, 659.25];
+
+        function playSoftTone(freq, duration = 1.2) {
+            if (!audioCtx || audioCtx.state !== 'running') return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+            gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.08, audioCtx.currentTime + 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+
+        function playChimeSound() {
+            initAudio();
+            if (audioCtx && audioCtx.state === 'running') {
+                playSoftTone(523.25, 0.5);
+                setTimeout(() => playSoftTone(659.25, 0.6), 100);
+            }
+        }
+
+        function startMelody() {
+            initAudio();
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            if (isMusicPlaying) return;
+
+            isMusicPlaying = true;
+            document.getElementById('musicText').innerText = "หยุดเพลง 🎵";
+            document.getElementById('musicIcon').classList.add('animate-spin');
+
+            melodyInterval = setInterval(() => {
+                const pitch = notes[Math.floor(Math.random() * notes.length)];
+                playSoftTone(pitch, 1.8);
+            }, 600);
+        }
+
+        function stopMelody() {
+            isMusicPlaying = false;
+            clearInterval(melodyInterval);
+            document.getElementById('musicText').innerText = "เปิดเพลงรัก 🎵";
+            document.getElementById('musicIcon').classList.remove('animate-spin');
+        }
+
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                stopMelody();
+            } else {
+                startMelody();
+            }
+        }
+    </script>
+</body>
+</html>
